@@ -1,47 +1,46 @@
 const express = require("express");
-const fs = require("fs");
 const todos = express.Router();
+const { MongoClient } = require("mongodb");
 
-let data = fs.readFileSync("./db/data.json");
-let dataParse = JSON.parse(data);
+const dbName = "todos";
+const url =
+  "mongodb+srv://yicha7:test1234@cluster2.kjcecrw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster2";
+const client = new MongoClient(url);
 
-todos.get("/", function (req, res) {
-  console.log(dataParse);
-  res.send(dataParse);
-});
-todos.get("/:id", function (req, res) {
-  let { id } = req.params;
-  let d = dataParse.list.filter((obj) => obj.id == id);
+let collection;
+async function connect() {
+  await client.connect();
+  const db = client.db(dbName);
+  collection = db.collection("data");
+  return;
+}
 
-  res.send(d);
-});
-
-todos.post("/", function (req, res) {
-  let body = [...dataParse.list, req.body];
-  fs.writeFileSync("./db/data.json", JSON.stringify({ list: body }));
-  res.send({ list: body });
-});
-
-todos.put("/", function (req, res) {
-  let { id, status } = req.body;
-
-  let body = [...dataParse.list].map((obj) => {
-    if (obj.id == id) {
-      obj.status = status;
-    }
-    return obj;
-  });
-
-  fs.writeFileSync("./db/data.json", JSON.stringify({ list: body }));
-  res.send({ list: body });
+todos.get("/", async function (req, res) {
+  await connect();
+  const findResult = await collection.find({}).toArray();
+  res.send(findResult);
 });
 
-todos.delete("/", function (req, res) {
-  let { id } = req.query;
-  let body = [...dataParse.list].filter((obj) => obj.id != id);
+todos.get("/:id", async function (req, res) {
+  let id = req.params;
+  const findResult = await collection.find(id).toArray();
 
-  fs.writeFileSync("./db/data.json", JSON.stringify({ list: body }));
-  res.send({ list: body });
+  res.send(findResult);
+});
+
+todos.post("/", async function (req, res) {
+  await collection.insertOne(req.body);
+  res.send("done");
+});
+
+todos.put("/", async function (req, res) {
+  await collection.updateOne({ id: req.body.id }, { $set: req.body });
+  res.send("done");
+});
+
+todos.delete("/", async function (req, res) {
+  await collection.deleteOne(req.query);
+  res.send("done");
 });
 
 module.exports = todos;
