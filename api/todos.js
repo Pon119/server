@@ -4,7 +4,7 @@ const { MongoClient } = require("mongodb");
 
 const dbName = "todos";
 const url =
-  "mongodb+srv://yicha7:test1234@cluster2.kjcecrw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster2";
+  "mongodb+srv://hdy9316:AWHRVKTeLZE7q5zW@cluster0.s4tkp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const client = new MongoClient(url);
 
 let collection;
