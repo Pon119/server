@@ -15,7 +15,7 @@ function getCurrentDate() {
 news.get("/", async function (req, res) {
   const today = getCurrentDate(); // 오늘 날짜 가져오기
   const api = await axios.get(
-    `https://api-v2.deepsearch.com/v1/global-articles?date_from=${today}&date_to=${today}&api_key=30c89185a6464a2190e6d40349de39e0`
+    `https://api-v2.deepsearch.com/v1/global-articles?date_from=${today}&date_to=${today}&api_key=dcf9ad7798b84628a576f1881a867423`
   );
   res.json(api.data);
 });
@@ -25,7 +25,7 @@ news.get("/category", async function (req, res) {
   const { category } = req.query;
   const today = getCurrentDate(); // 오늘 날짜 가져오기
   const api = await axios.get(
-    `https://api-v2.deepsearch.com/v1/global-articles/${category}?date_from=${today}&date_to=${today}&api_key=30c89185a6464a2190e6d40349de39e0`
+    `https://api-v2.deepsearch.com/v1/global-articles/${category}?date_from=${today}&date_to=${today}&api_key=dcf9ad7798b84628a576f1881a867423`
   );
   res.json(api.data);
 });
@@ -34,7 +34,7 @@ news.get("/category", async function (req, res) {
 news.get("/ko", async function (req, res) {
   const today = getCurrentDate(); // 오늘 날짜 가져오기
   const api = await axios.get(
-    `https://api-v2.deepsearch.com/v1/articles?date_from=${today}&date_to=${today}&api_key=30c89185a6464a2190e6d40349de39e0`
+    `https://api-v2.deepsearch.com/v1/articles?date_from=${today}&date_to=${today}&api_key=dcf9ad7798b84628a576f1881a867423`
   );
   res.json(api.data);
 });
@@ -44,7 +44,7 @@ news.get("/categoryko", async function (req, res) {
   const { category } = req.query;
   const today = getCurrentDate(); // 오늘 날짜 가져오기
   const api = await axios.get(
-    `https://api-v2.deepsearch.com/v1/articles/${category}?date_from=${today}&date_to=${today}&api_key=30c89185a6464a2190e6d40349de39e0`
+    `https://api-v2.deepsearch.com/v1/articles/${category}?date_from=${today}&date_to=${today}&api_key=dcf9ad7798b84628a576f1881a867423`
   );
   res.json(api.data);
 });
